@@ -15,6 +15,7 @@ The library provides:
  * support for any image library, including [RMagick](http://rmagick.rubyforge.org/) and [ChunkyPNG](https://github.com/wvanbergen/chunky_png).
  * support for any css selector style, including :hover pseudo-class selectors
  * support for pngcrush'n the generated image file
+ * support for optipng passthrough for generated image file
  * compatible with Rails 3.1 asset pipeline
 
 
@@ -92,6 +93,7 @@ Much of the behavior can be customized by overriding the following options:
  - `:output_image` - specify output location for generated image (default: &lt;input folder&gt;.png)
  - `:output_style` - specify output location for generated stylesheet (default: &lt;input folder&gt;.&lt;style&gt;)
  - `:pngcrush`     - pngcrush the generated output image (if pngcrush is available)
+ - `:optipng`      - process output image with optipng (if optipng is available)
  - `:padding`      - add padding to each sprite
  - `:margin`       - add margin to each sprite
  - `:width`        - fix width of each sprite to a specific size

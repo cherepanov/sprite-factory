@@ -19,6 +19,7 @@ module SpriteFactory
       @config[:csspath]    ||= SpriteFactory.csspath
       @config[:report]     ||= SpriteFactory.report
       @config[:pngcrush]   ||= SpriteFactory.pngcrush
+      @config[:optipng]    ||= SpriteFactory.optipng
       @config[:nocomments] ||= SpriteFactory.nocomments
     end
   
@@ -188,7 +189,11 @@ module SpriteFactory
 
     def create_sprite(images, width, height)
       library.create(output_image_file, images, width, height)
-      pngcrush(output_image_file)
+      if config[:pngcrush]
+        pngcrush(output_image_file)
+      else if config[:optipng]
+        optipng(output_image_file)
+      end
     end
 
     #----------------------------------------------------------------------------
@@ -225,6 +230,16 @@ module SpriteFactory
         crushed = "#{image}.crushed"
         `pngcrush -rem alla -reduce -brute #{image} #{crushed}`
         FileUtils.mv(crushed, image) 
+      end
+    end
+
+    #----------------------------------------------------------------------------
+
+    SUPPORTS_OPTIPNG = !`which optipng`.empty? rescue false # rescue on environments without `which` (windows)
+
+    def optipng(image)
+      if SUPPORTS_OPTIPNG && config[:optipng]
+        `optipng -o7 #{image}`
       end
     end
 
